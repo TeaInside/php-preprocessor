@@ -36,12 +36,11 @@ class PhpPreprocessor
 	}
 
 	/**
-	 * @param string $const
-	 * @param mixed  $value
+	 * @param \PhpPreprocessor\NodeFoundation
 	 * @return void
 	 */
-	public function addConst(string $const, $value): void
+	public function addNode(NodeFoundation $node): void
 	{
-		
+
 	}
 }

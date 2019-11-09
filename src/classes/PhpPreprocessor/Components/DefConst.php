@@ -3,6 +3,7 @@
 namespace PhpPreprocessor\Components;
 
 use PhpPreprocessor\Helpers;
+use PhpPreprocessor\NodeFoundation;
 
 /**
  * @author Ammar Faizi <ammarfaizi2@gmail.com> https://www.facebook.com/ammarfaizi2
@@ -10,7 +11,7 @@ use PhpPreprocessor\Helpers;
  * @version 0.0.1
  * @package \PhpPreprocessor\Components
  */
-class DefConst
+class DefConst extends NodeFoundation
 {
 	/**
 	 * @var string
