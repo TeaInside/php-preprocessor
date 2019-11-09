@@ -6,7 +6,7 @@
  */
 function phpPreprocessorAutoloader(string $class)
 {
-	if (file_exists($f = __DIR__."/src/classes/PhpPreprocessor/".str_replace("\\", "/", $class).".php")) {
+	if (file_exists($f = __DIR__."/classes/".str_replace("\\", "/", $class).".php")) {
 		require $f;
 	}
 }

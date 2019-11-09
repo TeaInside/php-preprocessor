@@ -51,24 +51,49 @@ class DefConst extends NodeFoundation
 		return $this->value;
 	}
 
+
+	public static function buildValue($val)
+	{
+		switch (gettype($val)) {
+			case "string":
+				$r = "\"".Helpers::escapeString($val)."\"";
+				break;
+
+			case "array":
+				$r = "[";
+				$i = 0;
+				foreach ($val as $k => $v) {
+					if (is_int($i) && ($k === $i)) {
+						$r .= self::buildValue($v).",";
+						$i++;
+					} else {
+						$i = null;
+						$r .= self::buildValue($k)."=>".self::buildValue($v).",";
+					}
+				}
+				$r = rtrim($r, ",")."]";
+				break;
+
+			case "integer":
+			case "double":
+				$r = $val;
+				break;
+
+			case "NULL":
+				$r = "null";
+				break;
+
+			default:
+				break;
+		}
+		return $r;
+	}
+
 	/**
 	 * @return string
 	 */
 	public function getPrint(): string
 	{
-		$r = "define(\"".Helpers::escapeString($this->name)."\", ";
-
-		switch (gettype($this->value)) {
-			case "string":
-				$r .= "\"".Helpers::escapeString($this->value)."\"";
-				break;
-			
-			default:
-				break;
-		}
-
-		$r .= ");";
-
-		return $r;
+		return "define(\"".Helpers::escapeString($this->name)."\", ".self::buildValue($this->value).");";
 	}
 }
