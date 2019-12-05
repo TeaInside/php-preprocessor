@@ -30,6 +30,16 @@ class PhpPreprocessor
 	 */
 	public $minify = false;
 
+    /**
+     * @var string
+     */
+    private $beforeStr = "";
+
+    /**
+     * @var string
+     */
+    private $afterStr = "";
+
 	/**
 	 * Constructor.
 	 */
@@ -44,6 +54,24 @@ class PhpPreprocessor
 	{
 		$this->file = $file;
 	}
+
+    /**
+     * @param string $str
+     * @return void
+     */
+    public function setBeforeStr(string $str): void
+    {
+        $this->beforeStr = $str;
+    }
+
+    /**
+     * @param string $str
+     * @return void
+     */
+    public function setAfterStr(string $str): void
+    {
+        $this->afterStr = $str;
+    }
 
 	/**
 	 * @param \PhpPreprocessor\NodeFoundation
@@ -74,11 +102,11 @@ class PhpPreprocessor
 	 */
 	private function buildMinify($handle): void
 	{
-		fwrite($handle, "<?php ");
+		fwrite($handle, "<?php ".$this->beforeStr);
 		foreach ($this->nodes as $v) {
 			fwrite($handle, $v->getPrint());
 		}
-		fwrite($handle, "\n");
+		fwrite($handle, "\n".$this->afterStr);
 	}
 
 	/**
@@ -87,10 +115,10 @@ class PhpPreprocessor
 	 */
 	private function buildNormal($handle): void
 	{
-		fwrite($handle, "<?php\n\n");
+		fwrite($handle, "<?php\n\n".$this->beforeStr);
 		foreach ($this->nodes as $v) {
 			fwrite($handle, $v->getPrint()."\n");
 		}
-		fwrite($handle, "\n");
+		fwrite($handle, "\n".$this->afterStr);
 	}
 }
